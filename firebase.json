@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist",
+    "public": "dist/qaleen-quote-generator",
     "ignore": [
       "firebase.json",
       "**/.*",
