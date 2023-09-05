@@ -1,0 +1,12 @@
+.example-form {
+  width: 100%;
+}
+.form-item {
+  margin: 5px;
+  display: flex;
+  align-items: flex-start;
+}
+
+table {
+  width: 100%;
+}
