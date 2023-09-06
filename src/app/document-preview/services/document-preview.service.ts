@@ -106,7 +106,7 @@ export class DocumentPreviewService {
         useCss: true,
         columnStyles: {
           0: { cellWidth: 17 },
-          1: { cellWidth: 'auto' },
+          1: { cellWidth: 120 },
           2: { cellWidth: 'auto' },
         },
         headStyles: {
