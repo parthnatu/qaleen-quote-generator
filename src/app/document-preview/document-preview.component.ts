@@ -16,6 +16,7 @@ export class DocumentPreviewComponent implements OnInit {
   public pdfSrc: string;
   currentDate = new Date();
   private documentPreviewService: DocumentPreviewService;
+  zoom_to: number;
   _subscription: any;
   constructor(documentPreviewService: DocumentPreviewService) {
     this.documentPreviewService = documentPreviewService;

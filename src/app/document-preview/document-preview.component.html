@@ -1,4 +1,4 @@
-<button
+<!-- <button
   mat-fab
   color="primary"
   class="form-item"
@@ -7,12 +7,12 @@
   (click)="downloadPDF()"
 >
   <mat-icon>cloud_download</mat-icon>
-</button>
+</button> -->
 <pdf-viewer
   [src]="pdfSrc"
   [render-text]="true"
   [original-size]="false"
   [autoresize]="true"
   [fit-to-page]="true"
-  style="width: 50vw; height: 100vh"
+  style="width: 50vw; height: 80vh"
 ></pdf-viewer>

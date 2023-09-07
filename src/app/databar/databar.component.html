@@ -1,4 +1,4 @@
-<div class="example-form" fxLayout="row">
+<div class="example-form" fxLayout="row" fxLayout.xs="column">
   <mat-form-field class="form-item">
     <mat-label>Couple Text</mat-label>
     <input matInput [(ngModel)]="coupleText" />
@@ -8,7 +8,7 @@
     <input matInput [(ngModel)]="eventName" />
   </mat-form-field>
 </div>
-<div class="example-form" fxLayout="row">
+<div class="example-form" fxLayout="row" fxLayout.xs="column">
   <mat-form-field class="form-item">
     <mat-label>Date</mat-label>
     <input matInput [(ngModel)]="dateText" />
@@ -18,18 +18,24 @@
     <input matInput [(ngModel)]="venueText" />
   </mat-form-field>
 </div>
-<div class="example-form" fxLayout="row" style="height: 250px">
-  <mat-form-field class="form-item" fxFlex="70%">
-    <mat-label style="height: 10%">Details</mat-label>
+<div
+  class="example-form"
+  fxLayout="row"
+  fxLayoutAlign=" center"
+  fxLayout.xs="column"
+>
+  <mat-form-field class="form-item" fxFlex="60%">
+    <mat-label>Details</mat-label>
     <textarea
       matInput
       [(ngModel)]="quoteItemDetail"
       cdkTextareaAutosize
       type="text"
+      style="max-height: 200px"
     ></textarea>
   </mat-form-field>
 
-  <mat-form-field class="form-item" fxFlex="30%">
+  <mat-form-field class="form-item" fxFlex="20%">
     <mat-label>Amount</mat-label>
     <input matInput placeholder="Ex. Pizza" [(ngModel)]="quoteItemAmount" />
   </mat-form-field>
