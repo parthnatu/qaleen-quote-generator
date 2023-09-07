@@ -1,10 +1,11 @@
 import { DocumentPreviewService } from './services/document-preview.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { DatabarService } from '../databar/services/databar-service.service';
 import { QuoteData } from '../databar/quote-data';
 import { MatTableDataSource } from '@angular/material/table';
+import { PdfViewerComponent } from 'ng2-pdf-viewer';
 
 @Component({
   selector: 'document-preview',
@@ -12,6 +13,9 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./document-preview.component.css'],
 })
 export class DocumentPreviewComponent implements OnInit {
+  @ViewChild(PdfViewerComponent, { static: false })
+  private pdfComponent: PdfViewerComponent;
+
   PDF = new jsPDF();
   public pdfSrc: string;
   currentDate = new Date();
@@ -35,5 +39,9 @@ export class DocumentPreviewComponent implements OnInit {
 
   downloadPDF() {
     this.documentPreviewService.downloadPDF();
+  }
+
+  pageRendered() {
+    this.pdfComponent.pdfViewer.currentScaleValue = 'page-fit';
   }
 }
