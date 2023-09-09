@@ -21,7 +21,7 @@ export class DatabarComponent {
   }
   private databarService: DatabarService;
   private documentPreviewService: DocumentPreviewService;
-  displayedColumns: string[] = ['serial_number', 'details', 'amount', 'delete'];
+  displayedColumns: string[] = ['details', 'amount', 'delete'];
   dataSource: MatTableDataSource<QuoteData>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
