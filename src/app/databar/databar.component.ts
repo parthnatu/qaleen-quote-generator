@@ -21,7 +21,7 @@ export class DatabarComponent {
   }
   private databarService: DatabarService;
   private documentPreviewService: DocumentPreviewService;
-  displayedColumns: string[] = ['serial_number', 'details', 'amount'];
+  displayedColumns: string[] = ['serial_number', 'details', 'amount', 'delete'];
   dataSource: MatTableDataSource<QuoteData>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -51,6 +51,13 @@ export class DatabarComponent {
       this.eventName,
       this.venueText
     );
+    this.documentPreviewService.loadPDF();
+  }
+
+  public removeItem(index: number) {
+    console.log('deleting : ' + index);
+    this.dataSource.data.splice(index, 1);
+    this.dataSource._updateChangeSubscription();
     this.documentPreviewService.loadPDF();
   }
 
