@@ -37,12 +37,14 @@ export class DocumentPreviewService {
     this.PDF.addFont('AvenirNext-DemiBold.ttf', 'AvenirNextDemiBold', 'normal');
     this.PDF.addFileToVFS('Baskerville-Regular.ttf', baskerville);
     this.PDF.addFont('Baskerville-Regular.ttf', 'Baskerville', 'bold');
+    let count = 0;
     this.dataSource.filteredData.forEach(
       (obj: { serial_number: any; details: any; amount: any }) => {
         let arr: any[] = [];
-        arr.push(obj.serial_number);
+        arr.push(count + 1);
         arr.push(obj.details);
         arr.push(obj.amount);
+        count += 1;
         data.push(arr);
       }
     );
