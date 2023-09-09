@@ -1,11 +1,20 @@
-<mat-toolbar>
-  <span>Qaleen Quote Generator</span>
-</mat-toolbar>
-<mat-grid-list cols="5" gutterSize="5px" rowHeight="100%">
-  <mat-grid-tile colspan="3"
-    ><document-preview></document-preview
-  ></mat-grid-tile>
-  <mat-grid-tile colspan="2">
-    <databar style="width: 100%; margin: 30px"></databar>
-  </mat-grid-tile>
-</mat-grid-list>
+<div>
+  <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+    <span>Qaleen Quote Generator</span>
+    <button
+      mat-fab
+      color="primary"
+      class="form-item"
+      aria-label="Example icon button with a home icon"
+      (click)="downloadPDF()"
+    >
+      <mat-icon>cloud_download</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center">
+  <div fxFlex="60%"><document-preview></document-preview></div>
+  <div fxFlex="40%" style="margin: 50px">
+    <databar></databar>
+  </div>
+</div>

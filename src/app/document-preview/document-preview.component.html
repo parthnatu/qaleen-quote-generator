@@ -1,17 +1,20 @@
-<button
+<!-- <button
   mat-fab
   color="primary"
   class="form-item"
   aria-label="Example icon button with a home icon"
+  style="margin-top: 110px; margin-bottom: 10px"
   (click)="downloadPDF()"
 >
   <mat-icon>cloud_download</mat-icon>
-</button>
+</button> -->
 <pdf-viewer
   [src]="pdfSrc"
   [render-text]="true"
   [original-size]="false"
   [autoresize]="true"
   [fit-to-page]="true"
-  style="width: 1000px; height: 950px"
+  style="width: 50vw; height: 80vh"
+  (page-rendered)="pageRendered()"
 ></pdf-viewer>
+<!-- <ngx-extended-pdf-viewer [src]="pdfSrc"> </ngx-extended-pdf-viewer> -->

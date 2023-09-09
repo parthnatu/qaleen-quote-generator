@@ -1,12 +1,20 @@
-.example-form {
-  width: 100%;
-}
 .form-item {
   margin: 5px;
   display: flex;
   align-items: flex-start;
 }
 
+.table-container {
+  height: 300px;
+  overflow: auto;
+}
 table {
   width: 100%;
+  margin: 10px;
+}
+td,
+th {
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 200px;
 }

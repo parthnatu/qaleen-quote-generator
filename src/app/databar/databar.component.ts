@@ -21,7 +21,7 @@ export class DatabarComponent {
   }
   private databarService: DatabarService;
   private documentPreviewService: DocumentPreviewService;
-  displayedColumns: string[] = ['serial_number', 'details', 'amount'];
+  displayedColumns: string[] = ['serial_number', 'details', 'amount', 'delete'];
   dataSource: MatTableDataSource<QuoteData>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -40,11 +40,10 @@ export class DatabarComponent {
   refresh() {}
 
   public addItem() {
-    var newRow = {
-      serial_number: this.dataSource.data.length + 1,
-      details: this.quoteItemDetail,
-      amount: this.quoteItemAmount,
-    };
+    var newRow = new QuoteData();
+    newRow.amount = this.quoteItemAmount;
+    newRow.details = this.quoteItemDetail;
+    newRow.serial_number = this.dataSource.data.length + 1;
     this.databarService.addToDataSource(newRow);
     this.databarService.setHeaderDetails(
       this.coupleText,
@@ -52,8 +51,23 @@ export class DatabarComponent {
       this.eventName,
       this.venueText
     );
-    this.documentPreviewService.loadPDF().then(() => {
-      console.log('done!');
-    });
+    this.documentPreviewService.loadPDF();
+  }
+
+  public removeItem(index: number) {
+    console.log('deleting : ' + index);
+    this.dataSource.data.splice(index, 1);
+    this.dataSource._updateChangeSubscription();
+    this.documentPreviewService.loadPDF();
+  }
+
+  public reloadPDFHeader() {
+    this.databarService.setHeaderDetails(
+      this.coupleText,
+      this.dateText,
+      this.eventName,
+      this.venueText
+    );
+    this.documentPreviewService.loadPDF();
   }
 }

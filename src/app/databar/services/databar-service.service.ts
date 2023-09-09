@@ -13,7 +13,9 @@ export class DatabarService {
   dateText: string;
   eventName: string;
   venueText: string;
+  totalCost: number = 0;
   addToDataSource(row: QuoteData) {
+    this.totalCost = this.totalCost + Number(row.amount);
     this.datasource.data.push(row);
     this.datasource.data = [...this.datasource.data];
   }
@@ -41,5 +43,9 @@ export class DatabarService {
       eventName: this.eventName,
       venueText: this.venueText,
     };
+  }
+
+  public getTotal(): number {
+    return this.totalCost;
   }
 }
