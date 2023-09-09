@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Item Detail</h1>
+<div mat-dialog-content fxLayout="column">
+  <mat-form-field class="form-item" fxFlex="60%">
+    <mat-label>Details</mat-label>
+    <textarea
+      matInput
+      [(ngModel)]="data.details"
+      cdkTextareaAutosize
+      type="text"
+      style="max-height: 200px; margin-right: 10px"
+    ></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="form-item" fxFlex="20%">
+    <mat-label>Amount</mat-label>
+    <input
+      matInput
+      type="number"
+      min="0"
+      placeholder="Ex. Pizza"
+      [(ngModel)]="data.amount"
+    />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>

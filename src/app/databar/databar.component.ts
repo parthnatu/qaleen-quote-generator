@@ -4,6 +4,8 @@ import { Component, ViewChild } from '@angular/core';
 import { QuoteData } from './quote-data';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { EditDetailModalComponent } from '../edit-detail-modal/edit-detail-modal.component';
 
 @Component({
   selector: 'databar',
@@ -13,7 +15,8 @@ import { MatTableDataSource } from '@angular/material/table';
 export class DatabarComponent {
   constructor(
     databarService: DatabarService,
-    documentPreviewService: DocumentPreviewService
+    documentPreviewService: DocumentPreviewService,
+    public dialog: MatDialog
   ) {
     this.databarService = databarService;
     this.documentPreviewService = documentPreviewService;
@@ -21,7 +24,7 @@ export class DatabarComponent {
   }
   private databarService: DatabarService;
   private documentPreviewService: DocumentPreviewService;
-  displayedColumns: string[] = ['details', 'amount', 'delete'];
+  displayedColumns: string[] = ['details', 'amount', 'menu'];
   dataSource: MatTableDataSource<QuoteData>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -33,6 +36,17 @@ export class DatabarComponent {
   eventName: string = '';
   venueText: string = '';
 
+  openDialog(index: number): void {
+    const dialogRef = this.dialog.open(EditDetailModalComponent, {
+      width: '400px',
+      data: this.dataSource.data.at(index),
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      this.dataSource._updateChangeSubscription();
+      this.documentPreviewService.loadPDF();
+    });
+  }
+
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
   }
@@ -43,7 +57,6 @@ export class DatabarComponent {
     var newRow = new QuoteData();
     newRow.amount = this.quoteItemAmount;
     newRow.details = this.quoteItemDetail;
-    newRow.serial_number = this.dataSource.data.length + 1;
     this.databarService.addToDataSource(newRow);
     this.databarService.setHeaderDetails(
       this.coupleText,

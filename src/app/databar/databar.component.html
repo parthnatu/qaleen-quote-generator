@@ -19,11 +19,11 @@
       <mat-label>Venue</mat-label>
       <input matInput [(ngModel)]="venueText" />
     </mat-form-field>
-    <div fxFlex="20%" style="height: 100%">
+    <div style="height: 100%">
       <button
         mat-fab
         color="accent"
-        aria-label="Example icon button with a home icon"
+        aria-label="Reload Header"
         (click)="reloadPDFHeader()"
       >
         <mat-icon>refresh</mat-icon>
@@ -64,7 +64,7 @@
       <button
         mat-fab
         color="primary"
-        aria-label="Example icon button with a home icon"
+        aria-label="Add new item"
         (click)="addItem()"
       >
         <mat-icon>plus_one</mat-icon>
@@ -92,16 +92,32 @@
         <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="delete">
+      <ng-container matColumnDef="menu">
         <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
         <td mat-cell *matCellDef="let element; let j = index">
           <button
             mat-icon-button
-            aria-label="Example icon button with a vertical three dot icon"
-            (click)="removeItem(j)"
+            [matMenuTriggerFor]="menu"
+            aria-label="More.."
           >
-            <mat-icon>delete</mat-icon>
+            <mat-icon>more_vert</mat-icon>
           </button>
+          <mat-menu #menu="matMenu">
+            <button
+              mat-icon-button
+              aria-label="Edit Entry"
+              (click)="openDialog(j)"
+            >
+              <mat-icon class="icon-display" style="color: white"
+                >edit</mat-icon
+              >
+            </button>
+            <button mat-icon-button aria-label="Delete" (click)="removeItem(j)">
+              <mat-icon class="icon-display" style="color: white"
+                >delete</mat-icon
+              >
+            </button>
+          </mat-menu>
         </td>
       </ng-container>
 

@@ -8,6 +8,7 @@ import { DatabarService } from 'src/app/databar/services/databar-service.service
 import { avenirNext } from '../assets/custom-fonts/AvenirNext-Regular-normal.module';
 import { avenirNextDB } from '../assets/custom-fonts/AvenirNext-DemiBold-normal.module';
 import { baskerville } from '../assets/custom-fonts/Baskervville-Regular-normal.module';
+import { baskervile_semibold } from '../assets/custom-fonts/Baskerville-SemiBold-05-normal.module';
 import { CurrencyPipe } from '@angular/common';
 @Injectable({
   providedIn: 'root',
@@ -37,9 +38,15 @@ export class DocumentPreviewService {
     this.PDF.addFont('AvenirNext-DemiBold.ttf', 'AvenirNextDemiBold', 'normal');
     this.PDF.addFileToVFS('Baskerville-Regular.ttf', baskerville);
     this.PDF.addFont('Baskerville-Regular.ttf', 'Baskerville', 'bold');
+    this.PDF.addFileToVFS('Baskerville-SemiBold.ttf', baskervile_semibold);
+    this.PDF.addFont(
+      'Baskerville-SemiBold.ttf',
+      'Baskerville-SemiBold',
+      'normal'
+    );
     let count = 0;
     this.dataSource.filteredData.forEach(
-      (obj: { serial_number: any; details: any; amount: any }) => {
+      (obj: { details: any; amount: any }) => {
         let arr: any[] = [];
         arr.push(count + 1);
         arr.push(obj.details);
@@ -125,7 +132,8 @@ export class DocumentPreviewService {
       bodyStyles: {
         fontStyle: 'bold',
         fontSize: 12,
-        font: 'Baskerville',
+        textColor: [0, 0, 0],
+        font: 'Baskerville-SemiBold',
         lineColor: [250, 162, 29],
         lineWidth: 0.3,
         halign: 'center',
@@ -164,6 +172,7 @@ export class DocumentPreviewService {
           data.column.index == data.table.columns.length - 1
         ) {
           data.cell.styles.textColor = [0, 0, 0];
+          data.cell.styles.font = 'Baskerville-SemiBold';
           data.cell.styles.halign = 'center';
         }
       },
