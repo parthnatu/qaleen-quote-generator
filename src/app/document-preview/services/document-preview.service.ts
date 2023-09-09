@@ -9,7 +9,9 @@ import { avenirNext } from '../assets/custom-fonts/AvenirNext-Regular-normal.mod
 import { avenirNextDB } from '../assets/custom-fonts/AvenirNext-DemiBold-normal.module';
 import { baskerville } from '../assets/custom-fonts/Baskervville-Regular-normal.module';
 import { baskervile_semibold } from '../assets/custom-fonts/Baskerville-SemiBold-05-normal.module';
-import { CurrencyPipe } from '@angular/common';
+import { avenirBlack } from '../assets/custom-fonts/Avenir-Black-03-normal.module';
+import { futuraBold } from '../assets/custom-fonts/Futura-Bold-03-normal.module';
+import { avenirNextMedium } from '../assets/custom-fonts/AvenirNext-Medium-06-normal.module';
 @Injectable({
   providedIn: 'root',
 })
@@ -23,7 +25,6 @@ export class DocumentPreviewService {
     this.dataSource = this.databarService.getDatasource();
   }
   PDF: jsPDF;
-  currentDate = new Date();
   dataSource: MatTableDataSource<QuoteData>;
   headerWidth = new jsPDF().getImageProperties('assets/q-01.png').width;
   headerHeight = new jsPDF().getImageProperties('assets/q-01.png').height;
@@ -44,6 +45,12 @@ export class DocumentPreviewService {
       'Baskerville-SemiBold',
       'normal'
     );
+    this.PDF.addFileToVFS('AvenirNext-Medium-06.ttf', avenirNextMedium);
+    this.PDF.addFont('AvenirNext-Medium-06.ttf', 'AvenirNext-Medium', 'normal');
+    this.PDF.addFileToVFS('Avenir-Black-03.ttf', avenirBlack);
+    this.PDF.addFont('Avenir-Black-03.ttf', 'Avenir-Black', 'normal');
+    this.PDF.addFileToVFS('Futura-Bold-03.ttf', futuraBold);
+    this.PDF.addFont('Futura-Bold-03.ttf', 'Futura-Bold', 'normal');
     let count = 0;
     this.dataSource.filteredData.forEach(
       (obj: { details: any; amount: any }) => {
@@ -59,28 +66,27 @@ export class DocumentPreviewService {
     let width = this.PDF.internal.pageSize.getWidth();
     let height = this.PDF.internal.pageSize.getHeight();
     this.PDF.setFontSize(11);
-    this.PDF.setFont('AvenirNextDemiBold');
+    this.PDF.setFont('AvenirNext-Medium');
     this.PDF.setTextColor('#FAA21D');
 
     this.PDF.text(
-      this.currentDate.getDay() +
-        '.' +
-        this.currentDate.getMonth() +
-        '.' +
-        this.currentDate.getFullYear(),
+      this.databarService.getHeaderDetails().invoiceDate,
       width - 30,
       80
     );
     console.log(this.databarService.getHeaderDetails());
     this.PDF.setTextColor('#C02F67');
     this.PDF.setFontSize(12);
+    this.PDF.setFont('Avenir-Black');
     this.PDF.text(this.databarService.getHeaderDetails().coupleText, 15, 90);
-    this.PDF.setFontSize(11);
+    this.PDF.setFont('Futura-Bold');
     this.PDF.text(this.databarService.getHeaderDetails().eventName, 15, 110);
     this.PDF.setTextColor('#000000');
+    this.PDF.setFont('Baskerville-SemiBold');
     this.PDF.text(this.databarService.getHeaderDetails().dateText, 15, 115);
     this.PDF.text(this.databarService.getHeaderDetails().venueText, 15, 120);
     this.PDF.setTextColor('#FAA21D');
+    this.PDF.setFont('AvenirNextDemiBold');
 
     this.PDF.text('1', width - 30, 275);
     let headerWidth = this.headerWidth;
@@ -121,7 +127,7 @@ export class DocumentPreviewService {
         2: { cellWidth: 'auto' },
       },
       headStyles: {
-        font: 'AvenirNextDemiBold',
+        font: 'Futura-Bold',
         textColor: '#C02F67',
         fillColor: '#ffffff',
         lineColor: [250, 162, 29],
@@ -140,10 +146,10 @@ export class DocumentPreviewService {
         valign: 'middle',
       },
       footStyles: {
-        font: 'AvenirNextDemiBold',
+        font: 'Futura-Bold',
         textColor: '#C02F67',
         fillColor: '#ffffff',
-        fontSize: 13,
+        fontSize: 14,
         lineColor: [250, 162, 29],
         lineWidth: 0.3,
         halign: 'right',

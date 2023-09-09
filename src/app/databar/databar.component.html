@@ -2,7 +2,19 @@
   <h4>Header</h4>
   <div class="example-form" fxLayout="row" fxLayout.xs="column">
     <mat-form-field class="form-item">
-      <mat-label>Couple Text</mat-label>
+      <mat-label>Invoice Date</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="invoiceDate" />
+      <mat-hint>DD.MM.YY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="example-form" fxLayout="row" fxLayout.xs="column">
+    <mat-form-field class="form-item">
+      <mat-label>The Couple</mat-label>
       <input matInput [(ngModel)]="coupleText" />
     </mat-form-field>
     <mat-form-field class="form-item">
@@ -12,7 +24,7 @@
   </div>
   <div class="example-form" fxLayout="row" fxLayout.xs="column">
     <mat-form-field class="form-item">
-      <mat-label>Date</mat-label>
+      <mat-label>Event Date</mat-label>
       <input matInput [(ngModel)]="dateText" />
     </mat-form-field>
     <mat-form-field class="form-item">

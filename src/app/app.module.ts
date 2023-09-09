@@ -23,7 +23,8 @@ import { MatCardModule } from '@angular/material/card';
 import { EditDetailModalComponent } from './edit-detail-modal/edit-detail-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +52,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatCardModule,
     MatDialogModule,
     MatMenuModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
