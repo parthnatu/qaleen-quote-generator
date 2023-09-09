@@ -51,7 +51,13 @@
 
     <mat-form-field class="form-item" fxFlex="20%">
       <mat-label>Amount</mat-label>
-      <input matInput placeholder="Ex. Pizza" [(ngModel)]="quoteItemAmount" />
+      <input
+        matInput
+        type="number"
+        min="0"
+        placeholder="Ex. Pizza"
+        [(ngModel)]="quoteItemAmount"
+      />
     </mat-form-field>
 
     <div fxFlex="20%" style="height: 100%">
@@ -94,7 +100,7 @@
             aria-label="Example icon button with a vertical three dot icon"
             (click)="removeItem(j)"
           >
-            <mat-icon>remove</mat-icon>
+            <mat-icon>delete</mat-icon>
           </button>
         </td>
       </ng-container>
