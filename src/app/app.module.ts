@@ -18,6 +18,8 @@ import { FlexModule } from '@angular/flex-layout';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [AppComponent, DatabarComponent, DocumentPreviewComponent],
@@ -37,6 +39,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     MatPaginatorModule,
     MatToolbarModule,
     PdfViewerModule,
+    NgxExtendedPdfViewerModule,
+    MatCardModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

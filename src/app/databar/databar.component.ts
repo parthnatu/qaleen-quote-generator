@@ -40,11 +40,10 @@ export class DatabarComponent {
   refresh() {}
 
   public addItem() {
-    var newRow = {
-      serial_number: this.dataSource.data.length + 1,
-      details: this.quoteItemDetail,
-      amount: this.quoteItemAmount,
-    };
+    var newRow = new QuoteData();
+    newRow.amount = this.quoteItemAmount;
+    newRow.details = this.quoteItemDetail;
+    newRow.serial_number = this.dataSource.data.length + 1;
     this.databarService.addToDataSource(newRow);
     this.databarService.setHeaderDetails(
       this.coupleText,
@@ -52,8 +51,16 @@ export class DatabarComponent {
       this.eventName,
       this.venueText
     );
-    this.documentPreviewService.loadPDF().then(() => {
-      console.log('done!');
-    });
+    this.documentPreviewService.loadPDF();
+  }
+
+  public reloadPDFHeader() {
+    this.databarService.setHeaderDetails(
+      this.coupleText,
+      this.dateText,
+      this.eventName,
+      this.venueText
+    );
+    this.documentPreviewService.loadPDF();
   }
 }
