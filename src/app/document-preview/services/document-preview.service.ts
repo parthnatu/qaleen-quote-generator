@@ -12,6 +12,8 @@ import { baskervile_semibold } from '../assets/custom-fonts/Baskerville-SemiBold
 import { avenirBlack } from '../assets/custom-fonts/Avenir-Black-03-normal.module';
 import { futuraBold } from '../assets/custom-fonts/Futura-Bold-03-normal.module';
 import { avenirNextMedium } from '../assets/custom-fonts/AvenirNext-Medium-06-normal.module';
+import { CurrencyPipe } from '@angular/common';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -79,8 +81,14 @@ export class DocumentPreviewService {
     this.PDF.setFontSize(12);
     this.PDF.setFont('Avenir-Black');
     this.PDF.text(this.databarService.getHeaderDetails().coupleText, 15, 90);
+    this.PDF.setFontSize(10);
     this.PDF.setFont('Futura-Bold');
-    this.PDF.text(this.databarService.getHeaderDetails().eventName, 15, 110);
+    this.PDF.text(
+      this.databarService.getHeaderDetails().eventName.toUpperCase(),
+      15,
+      110
+    );
+    this.PDF.setFontSize(12);
     this.PDF.setTextColor('#000000');
     this.PDF.setFont('Baskerville-SemiBold');
     this.PDF.text(this.databarService.getHeaderDetails().dateText, 15, 115);
@@ -117,7 +125,13 @@ export class DocumentPreviewService {
       tableLineColor: [250, 162, 29],
       tableLineWidth: 0.3,
       body: data,
-      foot: [['', 'TOTAL', 'INR ' + this.databarService.getTotal().toString()]],
+      foot: [
+        [
+          '',
+          'TOTAL',
+          'INR ' + this.databarService.getTotal().toLocaleString('en-IN'),
+        ],
+      ],
       startY: 130,
       theme: 'grid',
       useCss: true,
@@ -130,6 +144,7 @@ export class DocumentPreviewService {
         font: 'Futura-Bold',
         textColor: '#C02F67',
         fillColor: '#ffffff',
+        fontSize: 10,
         lineColor: [250, 162, 29],
         lineWidth: 0.3,
         halign: 'center',
@@ -142,7 +157,7 @@ export class DocumentPreviewService {
         font: 'Baskerville-SemiBold',
         lineColor: [250, 162, 29],
         lineWidth: 0.3,
-        halign: 'center',
+        halign: 'left',
         valign: 'middle',
       },
       footStyles: {
@@ -154,6 +169,7 @@ export class DocumentPreviewService {
         lineWidth: 0.3,
         halign: 'right',
         valign: 'middle',
+        minCellHeight: 12,
       },
       margin: {
         top: 80,
@@ -168,7 +184,16 @@ export class DocumentPreviewService {
           ) {
             console.log(data.cell.text);
             console.log(data.cell.raw);
-            data.cell.text[0] = 'INR ' + data.cell.text[0];
+            let transformedCurrency = parseInt(
+              data.cell.text[0]
+            ).toLocaleString('en-IN');
+            data.cell.text[0] = transformedCurrency
+              ? 'INR ' + transformedCurrency
+              : '';
+            data.cell.styles.halign = 'center';
+          }
+          if (data.column.index == 0 && data.cell.text[0]) {
+            data.cell.styles.halign = 'center';
           }
         }
       },

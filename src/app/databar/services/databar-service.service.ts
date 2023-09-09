@@ -21,6 +21,12 @@ export class DatabarService {
     this.datasource.data = [...this.datasource.data];
   }
 
+  removeFromDataSource(index: number, amount: number) {
+    this.totalCost = this.totalCost - amount;
+    this.datasource.data.splice(index, 1);
+    this.datasource._updateChangeSubscription();
+  }
+
   public getDatasource() {
     return this.datasource;
   }
@@ -51,5 +57,9 @@ export class DatabarService {
 
   public getTotal(): number {
     return this.totalCost;
+  }
+
+  public setTotal(amount: number) {
+    this.totalCost = amount;
   }
 }

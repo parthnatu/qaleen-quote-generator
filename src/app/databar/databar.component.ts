@@ -62,11 +62,18 @@ export class DatabarComponent {
   venueText: string = '';
   invoiceDate: any;
   openDialog(index: number): void {
+    let oldAmount = this.dataSource.data.at(index)?.amount;
     const dialogRef = this.dialog.open(EditDetailModalComponent, {
       width: '400px',
       data: this.dataSource.data.at(index),
     });
     dialogRef.afterClosed().subscribe((res) => {
+      console.log(res);
+      this.databarService.setTotal(
+        this.databarService.getTotal() -
+          (oldAmount ? oldAmount : 0) +
+          res.amount
+      );
       this.dataSource._updateChangeSubscription();
       this.documentPreviewService.loadPDF();
     });
@@ -91,13 +98,16 @@ export class DatabarComponent {
       this.venueText
     );
     this.documentPreviewService.loadPDF();
+    this.quoteItemDetail = '';
+    this.quoteItemAmount = 0;
   }
 
   public removeItem(index: number) {
-    console.log('deleting : ' + index);
-    this.dataSource.data.splice(index, 1);
-    this.dataSource._updateChangeSubscription();
-    this.documentPreviewService.loadPDF();
+    if (this.dataSource.data.at(index)) {
+      let amount = this.dataSource.data.at(index)?.amount;
+      this.databarService.removeFromDataSource(index, amount ? amount : 0);
+      this.documentPreviewService.loadPDF();
+    }
   }
 
   public reloadPDFHeader() {

@@ -3,7 +3,12 @@
   <div class="example-form" fxLayout="row" fxLayout.xs="column">
     <mat-form-field class="form-item">
       <mat-label>Invoice Date</mat-label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="invoiceDate" />
+      <input
+        (keyup.enter)="reloadPDFHeader()"
+        matInput
+        [matDatepicker]="picker"
+        [(ngModel)]="invoiceDate"
+      />
       <mat-hint>DD.MM.YY</mat-hint>
       <mat-datepicker-toggle
         matIconSuffix
@@ -15,21 +20,37 @@
   <div class="example-form" fxLayout="row" fxLayout.xs="column">
     <mat-form-field class="form-item">
       <mat-label>The Couple</mat-label>
-      <input matInput [(ngModel)]="coupleText" />
+      <input
+        (keyup.enter)="reloadPDFHeader()"
+        matInput
+        [(ngModel)]="coupleText"
+      />
     </mat-form-field>
     <mat-form-field class="form-item">
       <mat-label>Event Name</mat-label>
-      <input matInput [(ngModel)]="eventName" />
+      <input
+        (keyup.enter)="reloadPDFHeader()"
+        matInput
+        [(ngModel)]="eventName"
+      />
     </mat-form-field>
   </div>
   <div class="example-form" fxLayout="row" fxLayout.xs="column">
     <mat-form-field class="form-item">
       <mat-label>Event Date</mat-label>
-      <input matInput [(ngModel)]="dateText" />
+      <input
+        (keyup.enter)="reloadPDFHeader()"
+        matInput
+        [(ngModel)]="dateText"
+      />
     </mat-form-field>
     <mat-form-field class="form-item">
       <mat-label>Venue</mat-label>
-      <input matInput [(ngModel)]="venueText" />
+      <input
+        (keyup.enter)="reloadPDFHeader()"
+        matInput
+        [(ngModel)]="venueText"
+      />
     </mat-form-field>
     <div style="height: 100%">
       <button
