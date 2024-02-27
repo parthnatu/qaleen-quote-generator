@@ -7,6 +7,7 @@
 .table-container {
   height: 300px;
   overflow: auto;
+  overflow-x: hidden;
 }
 table {
   width: 100%;
@@ -18,3 +19,22 @@ th {
   word-wrap: break-word;
   max-width: 200px;
 }
+/* .mat-column-delete {
+  max-width: 10px !important;
+  min-width: 10px !important;
+}
+
+.mat-column-edit {
+  max-width: 10px !important;
+  min-width: 10px !important;
+}
+
+.mat-column-amount {
+  max-width: 20% !important;
+  min-width: 20% !important;
+}
+
+.mat-column-details {
+  max-width: 60% !important;
+  min-width: 60% !important;
+} */

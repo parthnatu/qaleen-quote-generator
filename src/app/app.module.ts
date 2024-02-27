@@ -20,9 +20,18 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { MatCardModule } from '@angular/material/card';
-
+import { EditDetailModalComponent } from './edit-detail-modal/edit-detail-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 @NgModule({
-  declarations: [AppComponent, DatabarComponent, DocumentPreviewComponent],
+  declarations: [
+    AppComponent,
+    DatabarComponent,
+    DocumentPreviewComponent,
+    EditDetailModalComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -41,6 +50,10 @@ import { MatCardModule } from '@angular/material/card';
     PdfViewerModule,
     NgxExtendedPdfViewerModule,
     MatCardModule,
+    MatDialogModule,
+    MatMenuModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

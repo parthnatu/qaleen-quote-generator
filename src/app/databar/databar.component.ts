@@ -4,24 +4,52 @@ import { Component, ViewChild } from '@angular/core';
 import { QuoteData } from './quote-data';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-
+import { MatDialog } from '@angular/material/dialog';
+import { EditDetailModalComponent } from '../edit-detail-modal/edit-detail-modal.component';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD.MM.YY',
+    monthYearLabel: 'YY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YY',
+  },
+};
 @Component({
   selector: 'databar',
   templateUrl: './databar.component.html',
   styleUrls: ['./databar.component.css'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class DatabarComponent {
   constructor(
     databarService: DatabarService,
-    documentPreviewService: DocumentPreviewService
+    documentPreviewService: DocumentPreviewService,
+    public dialog: MatDialog
   ) {
     this.databarService = databarService;
     this.documentPreviewService = documentPreviewService;
     this.dataSource = this.databarService.getDatasource();
   }
+
   private databarService: DatabarService;
   private documentPreviewService: DocumentPreviewService;
-  displayedColumns: string[] = ['details', 'amount', 'delete'];
+  displayedColumns: string[] = ['details', 'amount', 'menu'];
   dataSource: MatTableDataSource<QuoteData>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -32,6 +60,24 @@ export class DatabarComponent {
   dateText: string = '';
   eventName: string = '';
   venueText: string = '';
+  invoiceDate: any;
+  openDialog(index: number): void {
+    let oldAmount = this.dataSource.data.at(index)?.amount;
+    const dialogRef = this.dialog.open(EditDetailModalComponent, {
+      width: '400px',
+      data: this.dataSource.data.at(index),
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      console.log(res);
+      this.databarService.setTotal(
+        this.databarService.getTotal() -
+          (oldAmount ? oldAmount : 0) +
+          res.amount
+      );
+      this.dataSource._updateChangeSubscription();
+      this.documentPreviewService.loadPDF();
+    });
+  }
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
@@ -43,26 +89,30 @@ export class DatabarComponent {
     var newRow = new QuoteData();
     newRow.amount = this.quoteItemAmount;
     newRow.details = this.quoteItemDetail;
-    newRow.serial_number = this.dataSource.data.length + 1;
     this.databarService.addToDataSource(newRow);
     this.databarService.setHeaderDetails(
+      this.invoiceDate.format('DD.MM.YY'),
       this.coupleText,
       this.dateText,
       this.eventName,
       this.venueText
     );
     this.documentPreviewService.loadPDF();
+    this.quoteItemDetail = '';
+    this.quoteItemAmount = 0;
   }
 
   public removeItem(index: number) {
-    console.log('deleting : ' + index);
-    this.dataSource.data.splice(index, 1);
-    this.dataSource._updateChangeSubscription();
-    this.documentPreviewService.loadPDF();
+    if (this.dataSource.data.at(index)) {
+      let amount = this.dataSource.data.at(index)?.amount;
+      this.databarService.removeFromDataSource(index, amount ? amount : 0);
+      this.documentPreviewService.loadPDF();
+    }
   }
 
   public reloadPDFHeader() {
     this.databarService.setHeaderDetails(
+      this.invoiceDate.format('DD.MM.YY'),
       this.coupleText,
       this.dateText,
       this.eventName,

@@ -8,7 +8,12 @@ import { DatabarService } from 'src/app/databar/services/databar-service.service
 import { avenirNext } from '../assets/custom-fonts/AvenirNext-Regular-normal.module';
 import { avenirNextDB } from '../assets/custom-fonts/AvenirNext-DemiBold-normal.module';
 import { baskerville } from '../assets/custom-fonts/Baskervville-Regular-normal.module';
+import { baskervile_semibold } from '../assets/custom-fonts/Baskerville-SemiBold-05-normal.module';
+import { avenirBlack } from '../assets/custom-fonts/Avenir-Black-03-normal.module';
+import { futuraBold } from '../assets/custom-fonts/Futura-Bold-03-normal.module';
+import { avenirNextMedium } from '../assets/custom-fonts/AvenirNext-Medium-06-normal.module';
 import { CurrencyPipe } from '@angular/common';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -22,7 +27,6 @@ export class DocumentPreviewService {
     this.dataSource = this.databarService.getDatasource();
   }
   PDF: jsPDF;
-  currentDate = new Date();
   dataSource: MatTableDataSource<QuoteData>;
   headerWidth = new jsPDF().getImageProperties('assets/q-01.png').width;
   headerHeight = new jsPDF().getImageProperties('assets/q-01.png').height;
@@ -37,9 +41,21 @@ export class DocumentPreviewService {
     this.PDF.addFont('AvenirNext-DemiBold.ttf', 'AvenirNextDemiBold', 'normal');
     this.PDF.addFileToVFS('Baskerville-Regular.ttf', baskerville);
     this.PDF.addFont('Baskerville-Regular.ttf', 'Baskerville', 'bold');
+    this.PDF.addFileToVFS('Baskerville-SemiBold.ttf', baskervile_semibold);
+    this.PDF.addFont(
+      'Baskerville-SemiBold.ttf',
+      'Baskerville-SemiBold',
+      'normal'
+    );
+    this.PDF.addFileToVFS('AvenirNext-Medium-06.ttf', avenirNextMedium);
+    this.PDF.addFont('AvenirNext-Medium-06.ttf', 'AvenirNext-Medium', 'normal');
+    this.PDF.addFileToVFS('Avenir-Black-03.ttf', avenirBlack);
+    this.PDF.addFont('Avenir-Black-03.ttf', 'Avenir-Black', 'normal');
+    this.PDF.addFileToVFS('Futura-Bold-03.ttf', futuraBold);
+    this.PDF.addFont('Futura-Bold-03.ttf', 'Futura-Bold', 'normal');
     let count = 0;
     this.dataSource.filteredData.forEach(
-      (obj: { serial_number: any; details: any; amount: any }) => {
+      (obj: { details: any; amount: any }) => {
         let arr: any[] = [];
         arr.push(count + 1);
         arr.push(obj.details);
@@ -52,28 +68,33 @@ export class DocumentPreviewService {
     let width = this.PDF.internal.pageSize.getWidth();
     let height = this.PDF.internal.pageSize.getHeight();
     this.PDF.setFontSize(11);
-    this.PDF.setFont('AvenirNextDemiBold');
+    this.PDF.setFont('AvenirNext-Medium');
     this.PDF.setTextColor('#FAA21D');
 
     this.PDF.text(
-      this.currentDate.getDay() +
-        '.' +
-        this.currentDate.getMonth() +
-        '.' +
-        this.currentDate.getFullYear(),
+      this.databarService.getHeaderDetails().invoiceDate,
       width - 30,
       80
     );
     console.log(this.databarService.getHeaderDetails());
     this.PDF.setTextColor('#C02F67');
     this.PDF.setFontSize(12);
+    this.PDF.setFont('Avenir-Black');
     this.PDF.text(this.databarService.getHeaderDetails().coupleText, 15, 90);
-    this.PDF.setFontSize(11);
-    this.PDF.text(this.databarService.getHeaderDetails().eventName, 15, 110);
+    this.PDF.setFontSize(10);
+    this.PDF.setFont('Futura-Bold');
+    this.PDF.text(
+      this.databarService.getHeaderDetails().eventName.toUpperCase(),
+      15,
+      110
+    );
+    this.PDF.setFontSize(12);
     this.PDF.setTextColor('#000000');
+    this.PDF.setFont('Baskerville-SemiBold');
     this.PDF.text(this.databarService.getHeaderDetails().dateText, 15, 115);
     this.PDF.text(this.databarService.getHeaderDetails().venueText, 15, 120);
     this.PDF.setTextColor('#FAA21D');
+    this.PDF.setFont('AvenirNextDemiBold');
 
     this.PDF.text('1', width - 30, 275);
     let headerWidth = this.headerWidth;
@@ -104,7 +125,13 @@ export class DocumentPreviewService {
       tableLineColor: [250, 162, 29],
       tableLineWidth: 0.3,
       body: data,
-      foot: [['', 'TOTAL', 'INR ' + this.databarService.getTotal().toString()]],
+      foot: [
+        [
+          '',
+          'TOTAL',
+          'INR ' + this.databarService.getTotal().toLocaleString('en-IN'),
+        ],
+      ],
       startY: 130,
       theme: 'grid',
       useCss: true,
@@ -114,9 +141,10 @@ export class DocumentPreviewService {
         2: { cellWidth: 'auto' },
       },
       headStyles: {
-        font: 'AvenirNextDemiBold',
+        font: 'Futura-Bold',
         textColor: '#C02F67',
         fillColor: '#ffffff',
+        fontSize: 10,
         lineColor: [250, 162, 29],
         lineWidth: 0.3,
         halign: 'center',
@@ -125,21 +153,23 @@ export class DocumentPreviewService {
       bodyStyles: {
         fontStyle: 'bold',
         fontSize: 12,
-        font: 'Baskerville',
+        textColor: [0, 0, 0],
+        font: 'Baskerville-SemiBold',
         lineColor: [250, 162, 29],
         lineWidth: 0.3,
-        halign: 'center',
+        halign: 'left',
         valign: 'middle',
       },
       footStyles: {
-        font: 'AvenirNextDemiBold',
+        font: 'Futura-Bold',
         textColor: '#C02F67',
         fillColor: '#ffffff',
-        fontSize: 13,
+        fontSize: 14,
         lineColor: [250, 162, 29],
         lineWidth: 0.3,
         halign: 'right',
         valign: 'middle',
+        minCellHeight: 12,
       },
       margin: {
         top: 80,
@@ -154,7 +184,16 @@ export class DocumentPreviewService {
           ) {
             console.log(data.cell.text);
             console.log(data.cell.raw);
-            data.cell.text[0] = 'INR ' + data.cell.text[0];
+            let transformedCurrency = parseInt(
+              data.cell.text[0]
+            ).toLocaleString('en-IN');
+            data.cell.text[0] = transformedCurrency
+              ? 'INR ' + transformedCurrency
+              : '';
+            data.cell.styles.halign = 'center';
+          }
+          if (data.column.index == 0 && data.cell.text[0]) {
+            data.cell.styles.halign = 'center';
           }
         }
       },
@@ -164,6 +203,7 @@ export class DocumentPreviewService {
           data.column.index == data.table.columns.length - 1
         ) {
           data.cell.styles.textColor = [0, 0, 0];
+          data.cell.styles.font = 'Baskerville-SemiBold';
           data.cell.styles.halign = 'center';
         }
       },

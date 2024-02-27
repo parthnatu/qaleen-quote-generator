@@ -9,6 +9,7 @@ export class DatabarService {
   constructor() {}
 
   datasource = new MatTableDataSource<QuoteData>();
+  invoiceDate: string;
   coupleText: string;
   dateText: string;
   eventName: string;
@@ -20,16 +21,24 @@ export class DatabarService {
     this.datasource.data = [...this.datasource.data];
   }
 
+  removeFromDataSource(index: number, amount: number) {
+    this.totalCost = this.totalCost - amount;
+    this.datasource.data.splice(index, 1);
+    this.datasource._updateChangeSubscription();
+  }
+
   public getDatasource() {
     return this.datasource;
   }
 
   setHeaderDetails(
+    invoiceDate: string = '',
     coupleText: string = '',
     dateText: string = '',
     eventName: string = '',
     venueText: string = ''
   ) {
+    this.invoiceDate = invoiceDate;
     this.coupleText = coupleText;
     this.dateText = dateText;
     this.eventName = eventName;
@@ -38,6 +47,7 @@ export class DatabarService {
 
   public getHeaderDetails() {
     return {
+      invoiceDate: this.invoiceDate,
       coupleText: this.coupleText,
       dateText: this.dateText,
       eventName: this.eventName,
@@ -47,5 +57,9 @@ export class DatabarService {
 
   public getTotal(): number {
     return this.totalCost;
+  }
+
+  public setTotal(amount: number) {
+    this.totalCost = amount;
   }
 }
